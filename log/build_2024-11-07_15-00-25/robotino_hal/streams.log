@@ -1,0 +1,24 @@
+[1.341s] Invoking command in '/home/mirashid/robotino_ws/src/robotino_hal': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/mirashid/robotino_ws/build/robotino_hal/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/mirashid/robotino_ws/install/robotino_hal/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/robotino_hal build --build-base /home/mirashid/robotino_ws/build/robotino_hal/build install --record /home/mirashid/robotino_ws/build/robotino_hal/install.log --single-version-externally-managed install_data
+[1.765s] running egg_info
+[1.795s] writing ../../build/robotino_hal/robotino_hal.egg-info/PKG-INFO
+[1.796s] writing dependency_links to ../../build/robotino_hal/robotino_hal.egg-info/dependency_links.txt
+[1.796s] writing entry points to ../../build/robotino_hal/robotino_hal.egg-info/entry_points.txt
+[1.796s] writing requirements to ../../build/robotino_hal/robotino_hal.egg-info/requires.txt
+[1.797s] writing top-level names to ../../build/robotino_hal/robotino_hal.egg-info/top_level.txt
+[1.860s] reading manifest file '../../build/robotino_hal/robotino_hal.egg-info/SOURCES.txt'
+[1.861s] writing manifest file '../../build/robotino_hal/robotino_hal.egg-info/SOURCES.txt'
+[1.862s] running build
+[1.862s] running build_py
+[1.862s] copying robotino_hal/battery_monitor.py -> /home/mirashid/robotino_ws/build/robotino_hal/build/lib/robotino_hal
+[1.863s] running install
+[1.872s] running install_lib
+[1.903s] copying /home/mirashid/robotino_ws/build/robotino_hal/build/lib/robotino_hal/battery_monitor.py -> /home/mirashid/robotino_ws/install/robotino_hal/lib/python3.12/site-packages/robotino_hal
+[1.904s] byte-compiling /home/mirashid/robotino_ws/install/robotino_hal/lib/python3.12/site-packages/robotino_hal/battery_monitor.py to battery_monitor.cpython-312.pyc
+[1.906s] running install_data
+[1.906s] running install_egg_info
+[1.943s] removing '/home/mirashid/robotino_ws/install/robotino_hal/lib/python3.12/site-packages/robotino_hal-0.0.0-py3.12.egg-info' (and everything under it)
+[1.943s] Copying ../../build/robotino_hal/robotino_hal.egg-info to /home/mirashid/robotino_ws/install/robotino_hal/lib/python3.12/site-packages/robotino_hal-0.0.0-py3.12.egg-info
+[1.945s] running install_scripts
+[2.162s] Installing battery_monitor script to /home/mirashid/robotino_ws/install/robotino_hal/lib/robotino_hal
+[2.163s] writing list of installed files to '/home/mirashid/robotino_ws/build/robotino_hal/install.log'
+[2.197s] Invoked command in '/home/mirashid/robotino_ws/src/robotino_hal' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/mirashid/robotino_ws/build/robotino_hal/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/mirashid/robotino_ws/install/robotino_hal/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/robotino_hal build --build-base /home/mirashid/robotino_ws/build/robotino_hal/build install --record /home/mirashid/robotino_ws/build/robotino_hal/install.log --single-version-externally-managed install_data

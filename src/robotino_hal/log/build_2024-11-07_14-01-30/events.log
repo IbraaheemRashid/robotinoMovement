@@ -1,0 +1,28 @@
+[0.000000] (-) TimerEvent: {}
+[0.001257] (robotino_hal) JobQueued: {'identifier': 'robotino_hal', 'dependencies': OrderedDict()}
+[0.001450] (robotino_hal) JobStarted: {'identifier': 'robotino_hal'}
+[0.099624] (-) TimerEvent: {}
+[0.200066] (-) TimerEvent: {}
+[0.300454] (-) TimerEvent: {}
+[0.400887] (-) TimerEvent: {}
+[0.501387] (-) TimerEvent: {}
+[0.601824] (-) TimerEvent: {}
+[0.702314] (-) TimerEvent: {}
+[0.803179] (-) TimerEvent: {}
+[0.903884] (-) TimerEvent: {}
+[1.004510] (-) TimerEvent: {}
+[1.105318] (-) TimerEvent: {}
+[1.206271] (-) TimerEvent: {}
+[1.307149] (-) TimerEvent: {}
+[1.407729] (-) TimerEvent: {}
+[1.508235] (-) TimerEvent: {}
+[1.608786] (-) TimerEvent: {}
+[1.709244] (-) TimerEvent: {}
+[1.809770] (-) TimerEvent: {}
+[1.910260] (-) TimerEvent: {}
+[2.010802] (-) TimerEvent: {}
+[2.111316] (-) TimerEvent: {}
+[2.211871] (-) TimerEvent: {}
+[2.312413] (-) TimerEvent: {}
+[2.391732] (robotino_hal) JobEnded: {'identifier': 'robotino_hal', 'rc': 0}
+[2.393573] (-) EventReactorShutdown: {}
