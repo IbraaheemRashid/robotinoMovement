@@ -9,8 +9,6 @@ setup.py
 ../../build/robotino_hal/robotino_hal.egg-info/top_level.txt
 ../../build/robotino_hal/robotino_hal.egg-info/zip-safe
 resource/robotino_hal
-robotino_hal/__init__.py
-robotino_hal/battery_monitor.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py

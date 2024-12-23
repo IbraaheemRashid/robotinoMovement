@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'battery_monitor = robotino_hal.battery_monitor:main',
+            'battery_monitor = robotino_hal.nodes.battery_monitor:main',
+            'sensor_monitor = robotino_hal.nodes.sensor_monitor:main',
         ],
     },
 )
