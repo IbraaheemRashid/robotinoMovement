@@ -20,12 +20,12 @@ class RobotinoMotorController(Node):
     """
     ROS 2 node for controlling Robotino's motors.
     Subscribes to velocity commands and controls the motors.
+    Note: Commands must be sent at least every 200ms or robot will stop.
     """
     
     def __init__(self):
         super().__init__('robotino_motor_controller')
         
-        # Declare parameters
         self.declare_parameters(
             namespace='',
             parameters=[
@@ -33,11 +33,10 @@ class RobotinoMotorController(Node):
                 ('max_linear_speed', 0.8),
                 ('max_angular_speed', 1.5),
                 ('max_acceleration', 0.5),
-                ('control_rate', 50.0)  # Hz
+                ('control_rate', 50.0)
             ]
         )
         
-        # Get parameters
         self.robotino_ip = self.get_parameter('robotino_ip').value
         self.limits = MotorLimits(
             max_linear_speed=self.get_parameter('max_linear_speed').value,
@@ -45,7 +44,6 @@ class RobotinoMotorController(Node):
             max_acceleration=self.get_parameter('max_acceleration').value
         )
         
-        # Create subscribers
         self.vel_subscription = self.create_subscription(
             Twist,
             'cmd_vel',
@@ -57,15 +55,13 @@ class RobotinoMotorController(Node):
             Bool,
             'emergency_stop',
             self.emergency_stop_callback,
-            1  # Higher priority QoS
+            1 
         )
         
-        # Initialize state
         self.emergency_stop = False
         self.current_velocity = Twist()
         self.target_velocity = Twist()
         
-        # Create control loop timer
         control_rate = self.get_parameter('control_rate').value
         self.timer = self.create_timer(1.0/control_rate, self.control_loop)
         
@@ -73,7 +69,6 @@ class RobotinoMotorController(Node):
 
     def velocity_callback(self, msg: Twist):
         """Handle incoming velocity commands"""
-        # Store commanded velocity
         self.target_velocity = self.clamp_velocity(msg)
         self.get_logger().debug(
             f'Received velocity command - Linear: ({msg.linear.x:.2f}, '
@@ -93,7 +88,6 @@ class RobotinoMotorController(Node):
         """Limit velocity commands to safe values"""
         clamped = Twist()
         
-        # Clamp linear velocity
         linear_velocity = (velocity.linear.x**2 + velocity.linear.y**2)**0.5
         if linear_velocity > self.limits.max_linear_speed:
             scale = self.limits.max_linear_speed / linear_velocity
@@ -103,7 +97,6 @@ class RobotinoMotorController(Node):
         clamped.linear.x = velocity.linear.x
         clamped.linear.y = velocity.linear.y
         
-        # Clamp angular velocity
         clamped.angular.z = max(
             -self.limits.max_angular_speed,
             min(self.limits.max_angular_speed, velocity.angular.z)
@@ -112,24 +105,25 @@ class RobotinoMotorController(Node):
         return clamped
 
     def stop_motors(self):
-        """Immediately stop all motors"""
+        """Immediately stop all motors by sending zero velocity"""
         try:
-            url = f"http://{self.robotino_ip}/data/motor_stop"
-            requests.post(url)
+            url = f"http://{self.robotino_ip}/data/omnidrive"
+            data = [0.0, 0.0, 0.0]  # [vx, vy, omega]
+            requests.post(url, json=data)
             self.current_velocity = Twist()
             self.target_velocity = Twist()
         except Exception as e:
             self.get_logger().error(f'Failed to stop motors: {e}')
 
     def set_motor_velocity(self, velocity: Twist) -> bool:
-        """Send velocity commands to Robotino API"""
+        """Send velocity commands to Robotino API using omnidrive endpoint"""
         try:
-            url = f"http://{self.robotino_ip}/data/motor_velocity"
-            data = {
-                'vx': velocity.linear.x,
-                'vy': velocity.linear.y,
-                'omega': velocity.angular.z
-            }
+            url = f"http://{self.robotino_ip}/data/omnidrive"
+            data = [
+                velocity.linear.x,
+                velocity.linear.y,
+                velocity.angular.z
+            ]
             response = requests.post(url, json=data)
             response.raise_for_status()
             return True
@@ -144,11 +138,9 @@ class RobotinoMotorController(Node):
             return
             
         try:
-            # Calculate smooth velocity transition
             dt = 1.0 / self.get_parameter('control_rate').value
             max_step = self.limits.max_acceleration * dt
             
-            # Update velocities with acceleration limits
             for attr in ['x', 'y']:
                 current = getattr(self.current_velocity.linear, attr)
                 target = getattr(self.target_velocity.linear, attr)
@@ -159,7 +151,6 @@ class RobotinoMotorController(Node):
                     step = diff
                 setattr(self.current_velocity.linear, attr, current + step)
             
-            # Update angular velocity
             angular_diff = self.target_velocity.angular.z - self.current_velocity.angular.z
             angular_step = max_step if angular_diff > 0 else -max_step
             if abs(angular_diff) > max_step:
@@ -167,7 +158,6 @@ class RobotinoMotorController(Node):
             else:
                 self.current_velocity.angular.z = self.target_velocity.angular.z
             
-            # Send command to motors
             if not self.set_motor_velocity(self.current_velocity):
                 self.get_logger().warn('Failed to set motor velocity')
                 

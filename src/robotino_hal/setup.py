@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+from glob import glob
+import os
 
 package_name = 'robotino_hal'
 
@@ -10,12 +12,19 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
+        # Copy test files to share directory
+        (os.path.join('lib', package_name, 'test'), glob('test/*')),
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'flask',
+        'requests',
+    ],
     zip_safe=True,
     maintainer='mirashid',
     maintainer_email='mirashid@todo.todo',
-    description='TODO: Package description',
+    description='Hardware Abstraction Layer for Robotino Robot',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
