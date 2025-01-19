@@ -1,2 +1,0 @@
-[console_scripts]
-battery_monitor = robotino_hal.battery_monitor:main
