@@ -76,7 +76,16 @@ class RobotinoOdometryMonitor(Node):
             response = requests.get(url, timeout=self.timeout)
             response.raise_for_status()
             
-            return json.loads(response.text)
+            data_list = json.loads(response.text)
+            return {
+                'x': data_list[0],
+                'y': data_list[1],
+                'phi': data_list[2],
+                'vx': data_list[3],
+                'vy': data_list[4],
+                'omega': data_list[5]
+                # seq is data_list[6] but we don't need it
+            }
 
         except Exception as e:
             self.get_logger().error(f'Failed to get odometry data: {e}')

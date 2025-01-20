@@ -15,8 +15,7 @@ class RobotinoSensorMonitor(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('robotino_ip', 'localhost'),
-                ('robotino_port', 8080),
+                ('robotino_ip', 'localhost:8080'),
                 ('update_rate', 10.0),
                 ('num_sensors', 9),
                 ('timeout', 1.0)
@@ -24,7 +23,6 @@ class RobotinoSensorMonitor(Node):
         )
         
         self.robotino_ip = self.get_parameter('robotino_ip').value
-        self.robotino_port = self.get_parameter('robotino_port').value
         self.update_rate = self.get_parameter('update_rate').value
         self.num_sensors = self.get_parameter('num_sensors').value
         self.timeout = self.get_parameter('timeout').value
@@ -51,7 +49,7 @@ class RobotinoSensorMonitor(Node):
 
     def get_sensor_data(self) -> Optional[List[float]]:
         try:
-            url = f"http://{self.robotino_ip}:{self.robotino_port}/data/distancesensorarray"
+            url = f"http://{self.robotino_ip}/data/distancesensorarray"
             response = requests.get(url, timeout=self.timeout)
             response.raise_for_status()
             

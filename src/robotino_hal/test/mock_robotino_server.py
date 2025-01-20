@@ -26,7 +26,7 @@ class RobotinoState:
             self.distance_sensors = [200.0] * 9
 
 class MockRobotinoServer:
-    def __init__(self, host: str = 'localhost', port: int = 8080):
+    def __init__(self, host: str = 'localhost', port: int = 8081):
         self.app = Flask(__name__)
         self.host = host
         self.port = port

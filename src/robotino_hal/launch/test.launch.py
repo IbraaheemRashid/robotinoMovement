@@ -2,75 +2,70 @@ from launch import LaunchDescription
 from launch.actions import ExecuteProcess, TimerAction
 from launch_ros.actions import Node
 import os
-from ament_index_python.packages import get_package_prefix
+import yaml
+from ament_index_python.packages import get_package_prefix, get_package_share_directory
 
 def generate_launch_description():
-    prefix_path = get_package_prefix('robotino_hal')
-    mock_server_path = os.path.join(prefix_path, '..', '..', 'src', 'robotino_hal', 'test', 'mock_robotino_server.py')
+    # Get paths
+    robotino_hal_share = get_package_share_directory('robotino_hal')
+    params_path = os.path.join(robotino_hal_share, 'config', 'robot_params.yaml')
     
-    if not os.path.exists(mock_server_path):
-        raise FileNotFoundError(f"Mock server not found at {mock_server_path}")
-
-    mock_server = ExecuteProcess(
-        cmd=['python3', mock_server_path],
-        name='mock_server',
-        output='screen'
+    # Debug prints
+    print(f"\nLooking for parameter file at: {params_path}")
+    
+    if not os.path.exists(params_path):
+        raise FileNotFoundError(f"Parameters file not found at {params_path}")
+    
+    # Load parameters
+    with open(params_path, 'r') as f:
+        config = yaml.safe_load(f)
+        print(f"\nLoaded parameters: {config}")
+    
+    # Create the nodes
+    nav_node = Node(
+        package='robotino_hal',
+        executable='navigation',
+        name='simple_navigator',  # Changed name to match class name
+        parameters=[config],
+        output='screen',
+        arguments=['--ros-args', '--log-level', 'debug']
     )
-
-    common_params = {
-        'robotino_ip': 'localhost',  # Remove port from IP
-        'robotino_port': 8080,       # Add separate port parameter
-        'timeout': 1.0,
-    }
-
+    
+    # Other nodes remain the same...
     battery_monitor = Node(
         package='robotino_hal',
         executable='battery_monitor',
         name='battery_monitor',
-        parameters=[{
-            **common_params,
-            'update_rate': 1.0,
-        }],
+        parameters=[config],
         output='screen'
     )
-
+    
     sensor_monitor = Node(
         package='robotino_hal',
         executable='sensor_monitor',
         name='sensor_monitor',
-        parameters=[{
-            **common_params,
-            'update_rate': 10.0,
-            'num_sensors': 9
-        }],
+        parameters=[config],
         output='screen'
     )
-
+    
     motor_control = Node(
         package='robotino_hal',
         executable='motor_control',
         name='motor_control',
-        parameters=[{
-            **common_params,
-            'max_linear_speed': 0.8,
-            'max_angular_speed': 1.5,
-            'control_rate': 50.0
-        }],
+        parameters=[config],
         output='screen'
     )
-
+    
     odometry_monitor = Node(
         package='robotino_hal',
         executable='odometry_monitor',
         name='odometry_monitor',
-        parameters=[{
-            **common_params,
-            'update_rate': 20.0
-        }],
+        parameters=[config],
         output='screen'
     )
-
-    delayed_nodes = TimerAction(
+    
+    # Start nodes with delays
+    hal_nodes = TimerAction(
         period=3.0,
         actions=[
             battery_monitor,
@@ -79,8 +74,24 @@ def generate_launch_description():
             odometry_monitor
         ]
     )
-
+    
+    nav_delayed = TimerAction(
+        period=5.0,
+        actions=[nav_node]
+    )
+    
+    # Create mock server config
+    mock_server = ExecuteProcess(
+        cmd=['python3', os.path.join(get_package_prefix('robotino_hal'), 
+             '..', '..', 'src', 'robotino_hal', 'test', 'mock_robotino_server.py')],
+        name='mock_server',
+        output='screen'
+    )
+    
+    print("\nLaunching nodes in sequence: mock_server -> hal_nodes -> navigation")
+    
     return LaunchDescription([
         mock_server,
-        delayed_nodes
+        hal_nodes,
+        nav_delayed
     ])
