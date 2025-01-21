@@ -30,6 +30,7 @@ setup(
             'sensor_monitor = robotino_hal.nodes.sensor_monitor:main',
             'motor_control = robotino_hal.nodes.motor_control:main',
             'odometry_monitor = robotino_hal.nodes.odometry_monitor:main',
+            'camera_monitor = robotino_hal.nodes.camera_monitor:main',
             'navigation = robotino_hal.nodes.navigation:main',
         ],
     }

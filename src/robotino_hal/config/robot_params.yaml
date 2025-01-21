@@ -1,39 +1,40 @@
-# Common parameters
-robotino_ip: 'localhost:8081'
-timeout: 1.0
+/**:
+  ros__parameters:
+    robotino_ip: '10.42.0.232'  #'10.42.0.232' or 'localhost:8081'
+    timeout: 1.0
 
-# Battery monitor parameters
-battery:
-  update_rate: 1.0
-  min_voltage: 22.0
-  max_voltage: 24.5
-  voltage_scale: 350.0
-  critical_percentage: 0.15
-  warning_percentage: 0.25
+    battery:
+      update_rate: 1.0
+      min_voltage: 22.0
+      max_voltage: 24.5
+      voltage_scale: 350.0
+      critical_percentage: 0.15
+      warning_percentage: 0.25
 
-# Sensor monitor parameters
-sensors:
-  update_rate: 10.0
-  num_sensors: 9
+    sensors:
+      update_rate: 10.0
+      num_sensors: 9
 
-# Motor control parameters
-motors:
-  max_linear_speed: 0.8
-  max_angular_speed: 1.5
-  max_acceleration: 0.5
-  control_rate: 50.0
+    camera:
+      width: 640
+      height: 480
+      fps: 10
 
-# Odometry parameters
-odometry:
-  update_rate: 20.0
-  frame_id: "odom"
-  child_frame_id: "base_link"
-  covariance_linear: 0.1
-  covariance_angular: 0.1
+    motors:
+      max_linear_speed: 0.8
+      max_angular_speed: 1.5
+      max_acceleration: 0.5
+      control_rate: 50.0
 
-# Navigation parameters
-navigation:
-  max_linear_speed: 0.5
-  max_angular_speed: 1.0
-  position_tolerance: 0.1
-  angular_tolerance: 0.1
+    odometry:
+      update_rate: 20.0
+      frame_id: "odom"
+      child_frame_id: "base_link"
+      covariance_linear: 0.1
+      covariance_angular: 0.1
+
+    navigation:
+      max_linear_speed: 0.5
+      max_angular_speed: 1.0
+      position_tolerance: 0.1
+      angular_tolerance: 0.1
