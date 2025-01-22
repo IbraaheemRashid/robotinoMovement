@@ -20,7 +20,7 @@ class SimpleNavigator(Node):
         self.declare_parameter('navigation.max_linear_speed', 0.5)
         self.declare_parameter('navigation.max_angular_speed', 1.0)
         self.declare_parameter('navigation.position_tolerance', 0.1)
-        self.declare_parameter('navigation.angular_tolerance', 0.1)
+        self.declare_parameter('navigation.angular_tolerance', 0.35)
         
         self.max_linear_speed = self.get_parameter('navigation.max_linear_speed').value
         self.max_angular_speed = self.get_parameter('navigation.max_angular_speed').value
