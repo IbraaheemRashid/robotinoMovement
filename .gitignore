@@ -1,6 +1,7 @@
 devel/
 logs/
 build/
+build/robotino_hal
 install/
 bin/
 lib/
@@ -51,3 +52,4 @@ qtcreator-*
 # Catkin custom files
 CATKIN_IGNORE
 log/
+log/latest
