@@ -127,7 +127,6 @@ class RobotinoMotorController(Node):
             response = requests.post(url, json=data)
             response.raise_for_status()
             return True
-            
         except Exception as e:
             self.get_logger().error(f'Failed to set motor velocity: {e}')
             return False
@@ -136,11 +135,12 @@ class RobotinoMotorController(Node):
         """Main control loop for smooth velocity control"""
         if self.emergency_stop:
             return
-            
+
         try:
             dt = 1.0 / self.get_parameter('control_rate').value
             max_step = self.limits.max_acceleration * dt
-            
+
+            # Update linear velocities
             for attr in ['x', 'y']:
                 current = getattr(self.current_velocity.linear, attr)
                 target = getattr(self.target_velocity.linear, attr)
@@ -150,17 +150,19 @@ class RobotinoMotorController(Node):
                 else:
                     step = diff
                 setattr(self.current_velocity.linear, attr, current + step)
-            
+
+            # Update angular velocity
             angular_diff = self.target_velocity.angular.z - self.current_velocity.angular.z
-            angular_step = max_step if angular_diff > 0 else -max_step
             if abs(angular_diff) > max_step:
-                self.current_velocity.angular.z += angular_step
+                angular_step = max_step if angular_diff > 0 else -max_step
             else:
-                self.current_velocity.angular.z = self.target_velocity.angular.z
-            
+                angular_step = angular_diff
+            self.current_velocity.angular.z += angular_step
+
+            # Send velocity command
             if not self.set_motor_velocity(self.current_velocity):
                 self.get_logger().warn('Failed to set motor velocity')
-                
+
         except Exception as e:
             self.get_logger().error(f'Error in control loop: {e}')
             self.stop_motors()
