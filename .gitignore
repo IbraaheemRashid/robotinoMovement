@@ -57,3 +57,6 @@ qtcreator-*
 CATKIN_IGNORE
 log/
 log/latest
+src/robotino_hal/build/robotino_hal/colcon_command_prefix_setup_py.sh
+src/robotino_hal/log/latest
+src/robotino_hal/build/robotino_hal/colcon_command_prefix_setup_py.sh.env
