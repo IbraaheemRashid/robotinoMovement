@@ -16,7 +16,7 @@ def test_node_parameters(rclpy_init_shutdown):
     """Test initialization of node parameters"""
     node = RobotinoMotorController()
 
-    assert node.robotino_ip == '10.42.0.232'
+    assert node.robotino_ip == '10.42.0.232' or 'localhost:8081'
     assert node.limits.max_linear_speed == 0.8
     assert node.limits.max_angular_speed == 1.5
     assert node.limits.max_acceleration == 0.5

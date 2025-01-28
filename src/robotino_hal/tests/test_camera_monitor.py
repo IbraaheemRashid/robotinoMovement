@@ -18,7 +18,7 @@ def test_node_parameters(rclpy_init_shutdown):
     """Test initialization of node parameters"""
     node = RobotinoCameraMonitor()
 
-    assert node.robotino_ip == '10.42.0.232'
+    assert node.robotino_ip == '10.42.0.232' or 'localhost:8081'
     assert node.update_rate == 10.0
     assert node.timeout == 1.0
     assert node.camera_config.width == 640

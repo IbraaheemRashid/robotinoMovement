@@ -7,7 +7,7 @@ package_name = 'robotino_hal'
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(exclude=['test']),
+    packages=find_packages(include=['robotino_hal', 'robotino_hal.*']),
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -33,5 +33,6 @@ setup(
             'camera_monitor = robotino_hal.nodes.camera_monitor:main',
             'navigation = robotino_hal.nodes.navigation:main',
         ],
-    }
+    },
+    test_suite='tests'  # Updated to match your directory name
 )

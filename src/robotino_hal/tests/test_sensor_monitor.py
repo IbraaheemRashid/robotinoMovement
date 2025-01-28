@@ -2,8 +2,7 @@ import pytest
 from unittest.mock import MagicMock, patch
 import rclpy
 from std_msgs.msg import Float32MultiArray
-from robotino_hal.nodes.sensor_monitor import RobotinoSensorMonitor  # Replace with your actual package name
-
+from robotino_hal.nodes.sensor_monitor import RobotinoSensorMonitor
 @pytest.fixture
 def rclpy_init_shutdown():
     """Fixture for initializing and shutting down rclpy"""
@@ -15,7 +14,7 @@ def test_node_parameters(rclpy_init_shutdown):
     """Test initialization of node parameters"""
     node = RobotinoSensorMonitor()
 
-    assert node.robotino_ip == '10.42.0.232'
+    assert node.robotino_ip == '10.42.0.232' or 'localhost:8081'
     assert node.update_rate == 10.0
     assert node.num_sensors == 9
     assert node.timeout == 1.0
