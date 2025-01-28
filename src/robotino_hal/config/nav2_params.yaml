@@ -3,9 +3,28 @@ bt_navigator:
     use_sim_time: False
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: robotino/odom
-    # Using simple sequential behavior tree
-    default_nav_to_pose_bt_xml: "$(find nav2_bt_navigator)/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    odom_topic: /robotino/odom
+    default_bt_xml_filename: "$(find nav2_bt_navigator)/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    plugin_lib_names:
+      - nav2_compute_path_to_pose_action_bt_node
+      - nav2_follow_path_action_bt_node
+      - nav2_back_up_action_bt_node
+      - nav2_spin_action_bt_node
+      - nav2_wait_action_bt_node
+      - nav2_clear_costmap_service_bt_node
+      - nav2_is_stuck_condition_bt_node
+      - nav2_goal_reached_condition_bt_node
+      - nav2_initial_pose_received_condition_bt_node
+      - nav2_reinitialize_global_localization_service_bt_node
+      - nav2_rate_controller_bt_node
+      - nav2_distance_controller_bt_node
+      - nav2_speed_controller_bt_node
+      - nav2_recovery_node_bt_node
+      - nav2_pipeline_sequence_bt_node
+      - nav2_round_robin_node_bt_node
+      - nav2_transform_available_condition_bt_node
+      - nav2_time_expired_condition_bt_node
+      - nav2_distance_traveled_condition_bt_node
 
 controller_server:
   ros__parameters:
@@ -14,9 +33,10 @@ controller_server:
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
-
-    # Using simple DWB controller
-    BaseController:
+    failure_tolerance: 0.3
+    
+    # DWB Controller - configured for omnidirectional movement
+    FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
       min_vel_x: -0.5
@@ -27,16 +47,16 @@ controller_server:
       min_speed_xy: 0.0
       max_speed_xy: 0.5
       min_speed_theta: 0.0
-
-      # Add simple constraints
-      acc_lim_x: 2.5
-      acc_lim_y: 2.5
-      acc_lim_theta: 3.2
-      decel_lim_x: -2.5
-      decel_lim_y: -2.5
-      decel_lim_theta: -3.2
-
-      # Basic obstacle avoidance
+      
+      # Acceleration limits - adjusted for Robotino
+      acc_lim_x: 0.5
+      acc_lim_y: 0.5
+      acc_lim_theta: 1.0
+      decel_lim_x: -0.5
+      decel_lim_y: -0.5
+      decel_lim_theta: -1.0
+      
+      # Trajectory scoring parameters
       vx_samples: 20
       vy_samples: 20
       vtheta_samples: 40
@@ -47,6 +67,12 @@ controller_server:
       xy_goal_tolerance: 0.1
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
+      
+      # Cost function parameters
+      path_distance_bias: 32.0
+      goal_distance_bias: 24.0
+      occdist_scale: 0.02
+      twirling_scale: 0.0
 
 local_costmap:
   local_costmap:
@@ -61,30 +87,84 @@ local_costmap:
       resolution: 0.05
       robot_radius: 0.22
       plugins: ["obstacle_layer", "inflation_layer"]
+      
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.35
+      
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        observation_sources: scan
-        scan:
-          topic: /scan
-          max_obstacle_height: 2.0
+        observation_sources: ir_sensors
+        ir_sensors:
+          topic: /robotino/distancesensorarray
+          max_obstacle_height: 0.5
           clearing: True
           marking: True
-          data_type: "LaserScan"
-          raytrace_max_range: 3.0
-          raytrace_min_range: 0.0
-          obstacle_max_range: 2.5
-          obstacle_min_range: 0.0
+          data_type: "PointCloud2"  # We'll need to convert IR readings to PointCloud2
+          raytrace_max_range: 0.8
+          raytrace_min_range: 0.1
+          obstacle_max_range: 0.7
+          obstacle_min_range: 0.1
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      global_frame: map
+      robot_base_frame: base_link
+      robot_radius: 0.22
+      resolution: 0.05
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
+        
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: ir_sensors
+        ir_sensors:
+          topic: /robotino/distancesensorarray
+          max_obstacle_height: 0.5
+          clearing: True
+          marking: True
+          data_type: "PointCloud2"
+          raytrace_max_range: 0.8
+          raytrace_min_range: 0.1
+          obstacle_max_range: 0.7
+          obstacle_min_range: 0.1
+      
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.35
 
 planner_server:
   ros__parameters:
     planner_plugins: ["GridBased"]
+    use_sim_time: False
+    
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.5
       use_astar: false
       allow_unknown: true
+
+behavior_server:
+  ros__parameters:
+    local_costmap_topic: local_costmap/costmap_raw
+    global_costmap_topic: global_costmap/costmap_raw
+    cycles_per_second: 10.0
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait"]
+    spin:
+      plugin: "nav2_behaviors/Spin"
+    backup:
+      plugin: "nav2_behaviors/BackUp"
+    drive_on_heading:
+      plugin: "nav2_behaviors/DriveOnHeading"
+    wait:
+      plugin: "nav2_behaviors/Wait"

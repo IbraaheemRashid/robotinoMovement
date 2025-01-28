@@ -7,7 +7,7 @@ package_name = 'robotino_hal'
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(include=['robotino_hal', 'robotino_hal.*']),
+    packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -26,13 +26,13 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'battery_monitor = robotino_hal.nodes.battery_monitor:main',
-            'sensor_monitor = robotino_hal.nodes.sensor_monitor:main',
-            'motor_control = robotino_hal.nodes.motor_control:main',
-            'odometry_monitor = robotino_hal.nodes.odometry_monitor:main',
-            'camera_monitor = robotino_hal.nodes.camera_monitor:main',
-            'navigation = robotino_hal.nodes.navigation:main',
+            'battery_monitor = nodes.battery_monitor:main',
+            'sensor_monitor = nodes.sensor_monitor:main',
+            'motor_control = nodes.motor_control:main',
+            'odometry_monitor = nodes.odometry_monitor:main',
+            'camera_monitor = nodes.camera_monitor:main',
+            'navigation = nodes.navigation:main',
+            'lidar_monitor = nodes.lidar_monitor:main',
         ],
-    },
-    test_suite='tests'  # Updated to match your directory name
+    }
 )

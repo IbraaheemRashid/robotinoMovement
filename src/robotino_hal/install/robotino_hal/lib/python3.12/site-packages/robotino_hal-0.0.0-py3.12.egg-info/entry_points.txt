@@ -1,2 +1,0 @@
-[console_scripts]
-robotino_hal = robotino_hal.__init__:main
