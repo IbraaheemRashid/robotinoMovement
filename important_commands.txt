@@ -7,3 +7,6 @@ ros2 topic pub --once /emergency_stop std_msgs/msg/Bool "data: false"
 ros2 topic pub /goal_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: 'base_link', stamp: {sec: 0, nanosec: 0}}, pose: {position: {x: 0.5, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}"
 // format to use a nav command - this one moves forward
 
+ros2 launch robotino_hal test.launch.py
+// allows me to test all nodes etc.
+
