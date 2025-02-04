@@ -35,7 +35,7 @@ class RobotinoCameraMonitor(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('robotino_ip', 'localhost:8081'),
+                ('robotino_ip', '10.42.0.232'),
                 ('update_rate', 10.0),
                 ('timeout', 1.0),
                 ('camera.width', 640),

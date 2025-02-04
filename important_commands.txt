@@ -10,3 +10,5 @@ ros2 topic pub /goal_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: 'ba
 ros2 launch robotino_hal test.launch.py
 // allows me to test all nodes etc.
 
+ros2 launch urdf_tutorial display.launch.py model:=$(pwd)/src/description/robotino.urdf.xacro
+// allows visualisation of the urdf robotino

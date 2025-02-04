@@ -39,7 +39,7 @@ class RobotinoBatteryMonitor(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('robotino_ip', 'localhost:8081'),
+                ('robotino_ip', '10.42.0.232'),
                 ('update_rate', 1.0),  # Hz
                 ('timeout', 1.0)       # seconds
             ]
