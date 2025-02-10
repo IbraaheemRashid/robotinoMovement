@@ -69,14 +69,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    lidar_monitor = Node(
-        package='robotino_hal',
-        executable='lidar_monitor',
-        name='lidar_monitor',
-        parameters=[config],
-        output='screen'
-    )
-
     hal_nodes = TimerAction(
         period=3.0,
         actions=[
@@ -85,7 +77,6 @@ def generate_launch_description():
             motor_control,
             odometry_monitor,
             camera_monitor,
-            lidar_monitor,  # Add this line
         ]
     )
 

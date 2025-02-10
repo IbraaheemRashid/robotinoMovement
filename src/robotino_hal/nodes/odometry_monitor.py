@@ -42,8 +42,8 @@ class RobotinoOdometryMonitor(Node):
         self.timeout = self.get_parameter('timeout').value
         self.frame_id = self.get_parameter('odom.frame_id').value
         self.child_frame_id = self.get_parameter('odom.child_frame_id').value
-        self.covariance_linear = self.get_parameter('odom.covariance_linear').value
-        self.covariance_angular = self.get_parameter('odom.covariance_angular').value
+        self.covariance_linear = float(self.get_parameter('odom.covariance_linear').value)
+        self.covariance_angular = float(self.get_parameter('odom.covariance_angular').value)
 
         # Publishers
         self.odom_publisher = self.create_publisher(
@@ -82,7 +82,7 @@ class RobotinoOdometryMonitor(Node):
             response.raise_for_status()
 
             data = json.loads(response.text)
-            if len(data) != 7:  # [x, y, phi, vx, vy, omega, seq]
+            if len(data) != 7: 
                 raise ValueError('Invalid odometry data format: '
                                f'expected 7 values, got {len(data)}')
 
@@ -151,12 +151,12 @@ class RobotinoOdometryMonitor(Node):
 
         # Set covariance matrices (6x6)
         pose_covariance = [
-            self.covariance_linear, 0, 0, 0, 0, 0,
-            0, self.covariance_linear, 0, 0, 0, 0,
-            0, 0, self.covariance_linear, 0, 0, 0,
-            0, 0, 0, self.covariance_angular, 0, 0,
-            0, 0, 0, 0, self.covariance_angular, 0,
-            0, 0, 0, 0, 0, self.covariance_angular
+            float(self.covariance_linear), 0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, float(self.covariance_linear), 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, float(self.covariance_linear), 0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0, float(self.covariance_angular), 0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, float(self.covariance_angular), 0.0,
+            0.0, 0.0, 0.0, 0.0, 0.0, float(self.covariance_angular)
         ]
         odom.pose.covariance = pose_covariance
         odom.twist.covariance = pose_covariance

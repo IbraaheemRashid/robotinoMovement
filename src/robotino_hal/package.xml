@@ -15,6 +15,7 @@
   <depend>nav2_bringup</depend>
   <depend>nav2_msgs</depend>
   <depend>nav2_common</depend>
+  <depend>nav2_core</depend>
   <depend>rplidar_ros</depend>
 
   <test_depend>ament_copyright</test_depend>

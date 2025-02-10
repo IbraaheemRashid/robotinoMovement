@@ -142,15 +142,14 @@ class RobotinoCameraMonitor(Node):
         msg.height = self.camera_config.height
         msg.width = self.camera_config.width
 
-        # Basic camera matrix (you might want to calibrate these)
-        focal_length = self.camera_config.width
-        center_x = self.camera_config.width / 2
-        center_y = self.camera_config.height / 2
+        focal_length = float(self.camera_config.width)
+        center_x = float(self.camera_config.width) / 2.0
+        center_y = float(self.camera_config.height) / 2.0
 
         msg.k = [
-            focal_length, 0, center_x,
-            0, focal_length, center_y,
-            0, 0, 1
+            focal_length, 0.0, center_x,
+            0.0, focal_length, center_y,
+            0.0, 0.0, 1.0
         ]
 
         return msg

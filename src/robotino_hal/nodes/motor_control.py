@@ -37,7 +37,7 @@ class RobotinoMotorController(Node):
                 ('max_linear_speed', 0.8),
                 ('max_angular_speed', 1.5),
                 ('max_acceleration', 0.5),
-                ('control_rate', 50.0)
+                ('control_rate', 100.0)
             ]
         )
 
