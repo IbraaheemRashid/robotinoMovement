@@ -25,7 +25,7 @@ class RobotinoSensorMonitor(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('robotino_ip', '10.42.0.161'),
+                ('robotino_ip', 'localhost'),
                 ('update_rate', 10.0),
                 ('num_sensors', 9),
                 ('timeout', 1.0)

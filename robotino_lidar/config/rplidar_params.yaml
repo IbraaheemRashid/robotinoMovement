@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
     serial_port: '/dev/ttyUSB0'
-    frame_id: 'laser'
+    frame_id: 'laser_frame'
     angle_compensate: true
     scan_mode: 'Standard'
     serial_baudrate: 115200
