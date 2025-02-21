@@ -1,0 +1,102 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+      Splitter Ratio: 0.5
+    Tree Height: 223
+  - Class: rviz_common/Views
+    Current:
+      Name: Current View
+    Name: Views
+    Splitter Ratio: 0.5
+
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Name: Grid
+      Plane Cell Count: 10
+      Reference Frame: map
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Topic: /robot_description
+      Enabled: true
+      Name: RobotModel
+      Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/LaserScan
+      Enabled: true
+      Name: LaserScan
+      Topic: /scan
+      Use Fixed Frame: map
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Frame Timeout: 15
+      Marker Scale: 0.3
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Value: true
+    - Class: rviz_default_plugins/Map
+      Color Scheme: costmap
+      Enabled: true
+      Name: Global Costmap
+      Topic: /global_costmap/costmap_raw
+      Value: true
+    - Class: rviz_default_plugins/Map
+      Color Scheme: costmap
+      Enabled: true
+      Name: Local Costmap
+      Topic: /local_costmap/costmap_raw
+      Value: true
+    - Class: rviz_default_plugins/Path
+      Color: 0; 255; 0
+      Enabled: true
+      Name: Global Plan
+      Topic: /plan
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: map
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: false
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 10.0
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.06
+        Stereo Focal Distance: 1.0
+        Swap Stereo Eyes: false
+        Value: false
+      Field of View: 0.7854
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.0
+      Frames:
+        Fixed Frame: map
+        Target Frame: <Fixed Frame>
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 0.5
+      Target Frame: base_link
+      Yaw: 0.0

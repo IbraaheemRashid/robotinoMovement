@@ -1,6 +1,6 @@
 /**:
   ros__parameters:
-    robotino_ip: '10.42.0.232' #'10.42.0.232' or 'localhost:8081'
+    robotino_ip: '10.42.0.161' #'10.42.0.232' or 'localhost:8081'
     timeout: 1.0
 
     battery:

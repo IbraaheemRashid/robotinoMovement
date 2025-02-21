@@ -27,7 +27,7 @@ class RobotinoOdometryMonitor(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('robotino_ip', '10.42.0.232'),
+                ('robotino_ip', '10.42.0.161'),
                 ('update_rate', 20.0),
                 ('timeout', 1.0),
                 ('odom.frame_id', 'odom'),
@@ -48,7 +48,7 @@ class RobotinoOdometryMonitor(Node):
         # Publishers
         self.odom_publisher = self.create_publisher(
             Odometry,
-            'robotino/odom',
+            'odom',
             10
         )
 
