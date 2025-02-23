@@ -26,7 +26,7 @@ def generate_launch_description():
         name='simple_navigator',
         parameters=[config],
         output='screen',
-        arguments=['--ros-args', '--log-level', 'debug']
+        arguments=['--ros-args',]
     )
 
     battery_monitor = Node(

@@ -77,7 +77,7 @@
   <xacro:wheel prefix="wheel_2" angle="${2*pi/3}"/>
   <xacro:wheel prefix="wheel_3" angle="${4*pi/3}"/>
 
-  <link name="lidar_link">
+  <link name="laser_frame">
     <visual>
       <geometry>
         <box size="0.1 0.1 0.05"/>
@@ -96,7 +96,7 @@
 
   <joint name="lidar_joint" type="fixed">
     <parent link="base_link"/>
-    <child link="lidar_link"/>
+    <child link="laser_frame"/>
     <origin xyz="0 0 ${base_height/2 + 0.025}" rpy="0 0 0"/>
   </joint>
 
