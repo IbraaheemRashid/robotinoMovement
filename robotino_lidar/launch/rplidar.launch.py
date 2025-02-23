@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 import os
 
 def generate_launch_description():
-    params_path = os.path.expanduser('/home/robotino/robotinoMovement/robotino_lidar/config/rplidar_params.yaml')
+    params_path = os.path.expanduser('~/robotino_lidar/config/rplidar_params.yaml')
     
     return LaunchDescription([
         Node(
@@ -19,6 +19,6 @@ def generate_launch_description():
             package='tf2_ros',
             executable='static_transform_publisher',
             name='lidar_tf_publisher',
-            arguments=['0', '0', '0.05', '0', '0', '3.14159', 'base_link', 'laser_frame']
+            arguments=['0', '0', '0.05', '0', '0', '0', 'base_link', 'laser_frame']
         )
     ])
