@@ -33,7 +33,7 @@ class RobotinoMotorController(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('robotino_ip', '10.42.0.161'),
+                ('robotino_ip', 'localhost'),
                 ('max_linear_speed', 0.8),
                 ('max_angular_speed', 1.5),
                 ('max_acceleration', 0.5),
