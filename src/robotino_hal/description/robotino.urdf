@@ -139,7 +139,7 @@
   <joint name="lidar_joint" type="fixed">
     <parent link="base_link"/>
     <child link="laser_frame"/>
-    <!-- Rotate 180° around Z-axis (flips X and Y axes) -->
-    <origin rpy="0 0 3.14159" xyz="0 0 0.05"/>
+    <!-- Rotate 180° around Z-axis (yaw) -->
+    <origin xyz="0.4425 0 0.40" rpy="0 0 3.14159"/>
   </joint>
 </robot>
