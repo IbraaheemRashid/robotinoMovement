@@ -48,7 +48,7 @@ class RobotinoOdometryMonitor(Node):
         # Publishers
         self.odom_publisher = self.create_publisher(
             Odometry,
-            'odom',
+            'robotino/odom',
             10
         )
 
