@@ -67,20 +67,11 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Add a rotated base frame (180 degrees around Z axis)
-    rotated_base_transform = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='rotated_base_publisher',
-        arguments=['0', '0', '0', '0', '0', '3.14159', 'base_link', 'rotated_base_link']
-    )
-
-    # Update the lidar transform to connect to the rotated frame
     lidar_transform = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         name='lidar_tf_publisher',
-        arguments=['0', '0', '0.05', '0', '0', '0', 'rotated_base_link', 'laser_frame']
+        arguments=['0', '0', '0.05', '0', '0', '3.14159', 'base_link', 'laser_frame']
     )
 
     # Group HAL nodes to start first
@@ -100,7 +91,6 @@ def generate_launch_description():
         period=5.0,
         actions=[
             rplidar_node,
-            rotated_base_transform,  # Add the rotated base transform
             lidar_transform,
         ]
     )
