@@ -31,7 +31,7 @@ class RobotinoOdometryMonitor(Node):
                 ('update_rate', 20.0),
                 ('timeout', 1.0),
                 ('odom.frame_id', 'odom'),
-                ('odom.child_frame_id', 'base_link'),
+                ('odom.child_frame_id', 'base_footprint'),
                 ('odom.covariance_linear', 0.1),
                 ('odom.covariance_angular', 0.1)
             ]
