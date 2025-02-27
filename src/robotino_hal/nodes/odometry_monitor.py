@@ -118,7 +118,7 @@ class RobotinoOdometryMonitor(Node):
         self,
         data: List[float]
     ) -> Tuple[Odometry, TransformStamped]:
-        """Create odometry and transform messages with X-axis inverted.
+        """Create odometry and transform messages.
 
         Args:
             data: List of odometry values [x, y, phi, vx, vy, omega, seq]
@@ -134,16 +134,16 @@ class RobotinoOdometryMonitor(Node):
         odom.header.frame_id = self.frame_id
         odom.child_frame_id = self.child_frame_id
 
-        # Set position with negated X to correct direction inversion
-        odom.pose.pose.position = Point(x=-float(data[0]), y=float(data[1]), z=0.0)
+        # Set position
+        odom.pose.pose.position = Point(x=float(data[0]), y=float(data[1]), z=0.0)
 
         # Set orientation
         quat = self.euler_to_quaternion(float(data[2]))
         odom.pose.pose.orientation = quat
 
-        # Set velocities with negated X to correct direction inversion
+        # Set velocities
         odom.twist.twist.linear = Vector3(
-            x=-float(data[3]),
+            x=float(data[3]),
             y=float(data[4]),
             z=0.0
         )
@@ -161,13 +161,13 @@ class RobotinoOdometryMonitor(Node):
         odom.pose.covariance = pose_covariance
         odom.twist.covariance = pose_covariance
 
-        # Create transform message with negated X
+        # Create transform message
         transform = TransformStamped()
         transform.header = odom.header
         transform.child_frame_id = odom.child_frame_id
-        transform.transform.translation.x = -float(data[0])  # Negated X
-        transform.transform.translation.y = float(data[1])
-        transform.transform.translation.z = 0.0
+        transform.transform.translation.x = odom.pose.pose.position.x
+        transform.transform.translation.y = odom.pose.pose.position.y
+        transform.transform.translation.z = odom.pose.pose.position.z
         transform.transform.rotation = quat
 
         return odom, transform
@@ -179,11 +179,6 @@ class RobotinoOdometryMonitor(Node):
             return
 
         try:
-            # For debugging, log the raw odometry values
-            self.get_logger().debug(
-                f"Raw odometry: X={data[0]}, Y={data[1]}, phi={data[2]}, vx={data[3]}, vy={data[4]}"
-            )
-            
             odom_msg, transform_msg = self.create_odometry_message(data)
 
             # Publish messages
