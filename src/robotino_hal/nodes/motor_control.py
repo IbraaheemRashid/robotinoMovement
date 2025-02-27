@@ -148,7 +148,7 @@ class RobotinoMotorController(Node):
         try:
             url = f'http://{self.robotino_ip}/data/omnidrive'
             data = [
-                velocity.linear.x,
+                -velocity.linear.x,
                 velocity.linear.y,
                 velocity.angular.z
             ]
