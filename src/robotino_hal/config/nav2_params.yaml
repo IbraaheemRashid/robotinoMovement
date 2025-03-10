@@ -155,14 +155,14 @@ planner_server:
     planner_plugins: ["GridBased"]
     
     GridBased:
-      plugin: "nav2_theta_star_planner/ThetaStarPlanner"  # Using forward slash format
+      plugin: "smac_planner/SmacPlanner"
+      tolerance: 0.5
+      downsample_costmap: true
+      downsampling_factor: 1
+      angle_quantization_bins: 72
       allow_unknown: true
-      use_final_approach_orientation: true
       max_iterations: 1000000
-      w_heuristic: 1.0
-      w_euclidean_distance: 0.1
-      winding: true
-      debug_visualizations: false 
+      smooth_path: true 
 
 recoveries_server:
   ros__parameters:
