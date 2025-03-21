@@ -33,7 +33,6 @@ This project provides a comprehensive ROS 2 integration for the Festo Robotino 3
 
 1. A Hardware Abstraction Layer (HAL) that standardizes access to the robot's sensors and actuators
 2. A complete navigation stack using Nav2 for autonomous navigation
-3. Integration with SocNavGym for social navigation using reinforcement learning
 
 The HAL interfaces with the Robotino API to provide ROS 2 topics for battery status, motor control, sensor data, odometry, and camera feed. The navigation stack utilizes SLAM for mapping and Nav2 for autonomous navigation.
 
