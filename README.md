@@ -20,12 +20,16 @@ This repository contains a ROS 2-based Hardware Abstraction Layer (HAL) for the 
   - [SLAM and Mapping](#slam-and-mapping)
   - [Nav2 Configuration](#nav2-configuration)
   - [Path Planning and Control](#path-planning-and-control)
+- [Social Navigation](#social-navigation)
+  - [SocNavGym Integration](#socnavgym-integration)
+  - [Reinforcement Learning](#reinforcement-learning)
 - [Usage](#usage)
   - [Basic Control](#basic-control)
   - [Navigation](#navigation)
   - [Custom Command Examples](#custom-command-examples)
 - [Automated Startup](#automated-startup)
 - [Troubleshooting](#troubleshooting)
+- [Future Work](#future-work)
 
 ## Description
 
@@ -102,7 +106,7 @@ The HAL interfaces with the Robotino API to provide ROS 2 topics for battery sta
    ```bash
    mkdir -p ~/robotino_ws/src
    cd ~/robotino_ws/src
-   git clone https://github.com/IbraaheemRashid/robotinoMovement
+   git clone https://github.com/yourusername/robotino_hal.git
    ```
 
 3. Install dependencies:
@@ -120,7 +124,7 @@ The HAL interfaces with the Robotino API to provide ROS 2 topics for battery sta
    colcon build
    source install/setup.bash
    ```
-
+   
 ## Project Structure
 
 The project is organized in the following structure:
@@ -265,10 +269,41 @@ ros2 launch robotino_hal total_launch.py
 
 ### Navigation
 
-Launch the navigation stack with a pre-built map:
+#### Using Maps
+
+To create a new map using SLAM:
 
 ```bash
-ros2 launch robotino_hal navigation.launch.py
+# Launch SLAM toolbox in online mode
+ros2 launch slam_toolbox online_async_launch.py
+
+# Drive the robot around to map the environment
+# You can use teleop:
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+Save the created map when finished:
+
+```bash
+# Save the map to a file
+ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "{name: {data: 'my_lab_map'}}"
+```
+
+To navigate using a pre-existing map:
+
+```bash
+# Launch Nav2 with your map file
+ros2 launch nav2_bringup bringup.launch.py map:=/path/to/your/map.yaml
+
+# Alternative with the robotino_hal package
+ros2 launch robotino_hal navigation.launch.py map:=/path/to/your/map.yaml
+```
+
+The map parameter can be an absolute path or a relative path to a map file stored in the package:
+
+```bash
+# Using a map from the robotino_hal package
+ros2 launch nav2_bringup bringup.launch.py map:=$(ros2 pkg prefix robotino_hal)/share/robotino_hal/maps/lab_map.yaml
 ```
 
 Visualize in RViz and set navigation goals:
@@ -276,6 +311,10 @@ Visualize in RViz and set navigation goals:
 ```bash
 ros2 run rviz2 rviz2 -d $(ros2 pkg prefix robotino_hal)/share/robotino_hal/config/rviz_config.rviz
 ```
+
+In RViz:
+1. Use "2D Pose Estimate" to set the initial robot position
+2. Use "Navigation2 Goal" to set navigation goals for the robot
 
 ### Custom Command Examples
 
@@ -316,3 +355,10 @@ Common issues and solutions:
 - **LiDAR not working**: Verify USB connection and permissions (`sudo chmod 666 /dev/ttyUSB0`).
 - **Navigation errors**: Ensure the TF tree is correctly configured with `ros2 run tf2_tools view_frames`.
 - **Localization failures**: Reset the localization using `ros2 service call /reinitialize_global_localization std_srvs/srv/Empty`.
+
+## Future Work
+
+- Integration with more advanced social navigation algorithms
+- Improved obstacle detection using RGB-D cameras
+- Multi-robot coordination for collaborative tasks
+- User interface for mission planning and monitoring
