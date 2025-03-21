@@ -328,20 +328,6 @@ Send a navigation goal:
 ros2 topic pub /goal_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: 'map', stamp: {sec: 0, nanosec: 0}}, pose: {position: {x: 1.0, y: 0.5, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}"
 ```
 
-## Automated Startup
-
-A TMUX script is provided for automated startup of all necessary components:
-
-```bash
-./start_robotino.sh
-```
-
-This script launches:
-1. The HAL components
-2. LiDAR node
-3. SLAM or localization
-4. Navigation stack
-
 ## Troubleshooting
 
 Common issues and solutions:
