@@ -20,16 +20,12 @@ This repository contains a ROS 2-based Hardware Abstraction Layer (HAL) for the 
   - [SLAM and Mapping](#slam-and-mapping)
   - [Nav2 Configuration](#nav2-configuration)
   - [Path Planning and Control](#path-planning-and-control)
-- [Social Navigation](#social-navigation)
-  - [SocNavGym Integration](#socnavgym-integration)
-  - [Reinforcement Learning](#reinforcement-learning)
 - [Usage](#usage)
   - [Basic Control](#basic-control)
   - [Navigation](#navigation)
   - [Custom Command Examples](#custom-command-examples)
 - [Automated Startup](#automated-startup)
 - [Troubleshooting](#troubleshooting)
-- [Future Work](#future-work)
 
 ## Description
 
@@ -355,10 +351,3 @@ Common issues and solutions:
 - **LiDAR not working**: Verify USB connection and permissions (`sudo chmod 666 /dev/ttyUSB0`).
 - **Navigation errors**: Ensure the TF tree is correctly configured with `ros2 run tf2_tools view_frames`.
 - **Localization failures**: Reset the localization using `ros2 service call /reinitialize_global_localization std_srvs/srv/Empty`.
-
-## Future Work
-
-- Integration with more advanced social navigation algorithms
-- Improved obstacle detection using RGB-D cameras
-- Multi-robot coordination for collaborative tasks
-- User interface for mission planning and monitoring
