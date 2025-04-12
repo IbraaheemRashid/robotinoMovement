@@ -37,6 +37,7 @@ setup(
             'camera_monitor = nodes.camera_monitor:main',
             'navigation = nodes.navigation:main',
             'lidar_monitor = nodes.lidar_monitor:main',
+            'social_navigation = nodes.social_navigation:main',
         ],
     }
 )

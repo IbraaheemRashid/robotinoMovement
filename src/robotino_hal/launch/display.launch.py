@@ -66,7 +66,6 @@ def generate_launch_description():
         arguments=['-d', rviz_config],
     )
 
-    # Launch Description
     return LaunchDescription([
         declare_gui,
         declare_model,
