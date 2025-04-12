@@ -10,7 +10,7 @@ def generate_launch_description():
     robotino_hal_share = get_package_share_directory('robotino_hal')
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
 
-    map_file = '/home/mir/map/base.yaml'
+    map_file = '/home/robotino/robotinoMovement/src/map/base.yaml'
 
     nav2_params_file = os.path.join(robotino_hal_share, 'config', 'nav2_params.yaml')
 
