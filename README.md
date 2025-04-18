@@ -232,8 +232,7 @@ The project uses `slam_toolbox` for Simultaneous Localization and Mapping (SLAM)
 ros2 launch slam_toolbox online_async_launch.py
 
 # To save a map
-ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "name:
-  data: 'my_map'"
+ros2 run nav2_map_server map_saver_cli -f ~/map
 ```
 
 ### Nav2 Configuration
@@ -281,30 +280,23 @@ Save the created map when finished:
 
 ```bash
 # Save the map to a file
-ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "{name: {data: 'my_lab_map'}}"
+ros2 run nav2_map_server map_saver_cli -f ~/map
 ```
 
 To navigate using a pre-existing map:
 
 ```bash
 # Launch Nav2 with your map file
-ros2 launch nav2_bringup bringup.launch.py map:=/path/to/your/map.yaml
+ros2 launch robotino_hal bringup.launch.py
 
 # Alternative with the robotino_hal package
 ros2 launch robotino_hal navigation.launch.py map:=/path/to/your/map.yaml
 ```
 
-The map parameter can be an absolute path or a relative path to a map file stored in the package:
-
-```bash
-# Using a map from the robotino_hal package
-ros2 launch nav2_bringup bringup.launch.py map:=$(ros2 pkg prefix robotino_hal)/share/robotino_hal/maps/lab_map.yaml
-```
-
 Visualize in RViz and set navigation goals:
 
 ```bash
-ros2 run rviz2 rviz2 -d $(ros2 pkg prefix robotino_hal)/share/robotino_hal/config/rviz_config.rviz
+ros2 run rviz2 rviz2
 ```
 
 In RViz:
@@ -335,4 +327,3 @@ Common issues and solutions:
 - **Robot not responding to commands**: Check if emergency stop is enabled or if battery level is critically low.
 - **LiDAR not working**: Verify USB connection and permissions (`sudo chmod 666 /dev/ttyUSB0`).
 - **Navigation errors**: Ensure the TF tree is correctly configured with `ros2 run tf2_tools view_frames`.
-- **Localization failures**: Reset the localization using `ros2 service call /reinitialize_global_localization std_srvs/srv/Empty`.
